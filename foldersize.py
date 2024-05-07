@@ -43,7 +43,7 @@ def measure_folder_size(folder, printer : Printer, sum = 0, count = 0):
                 if len(truncated_string) != len(fullpath):
                     truncated_string = "..."+truncated_string
                 # remove unicode because length issues
-                sanitize_string(truncated_string)
+                sanitized_string = sanitize_string(truncated_string)
                 printer.print(megabytes + " " + sanitized_string)
             count += 1
     return sum, count
@@ -58,7 +58,7 @@ def main():
         raise Exception("Must specify directory")
     for obj in os.listdir(fullpath):
         fullobjpath = os.path.join(fullpath, obj)
-        if os.path.isdir(obj):
+        if os.path.isdir(fullobjpath):
             print(fullobjpath, end=" ")
             sys.stdout.flush()
             printer = Printer()
@@ -68,6 +68,5 @@ def main():
         else:
             stat = os.stat(fullobjpath)
             print(fullobjpath, stat.st_size)
-    print(unicode_strings)
 if __name__ == "__main__":
     main()
